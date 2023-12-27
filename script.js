@@ -141,7 +141,6 @@ async function makePrediction(filenames) {
     return prediction;
 }
 
-
 //// Start training
 // loadMobileNetFeatureModel()
 //     .then(() => createNewModelHead())
@@ -161,11 +160,14 @@ const ROADS = [
     {name: "Clean Road", image: IMG_DIR + "clean_3.jpg",},
     {name: "Clean Road", image: IMG_DIR + "clean_4.jpg",},
     {name: "Clean Road", image: IMG_DIR + "clean_5.jpg",},
+    {name: "Clean Road", image: IMG_DIR + "clean_6.jpg",},
+
     {name: "Dirty Road", image: IMG_DIR + "dirty_1.jpg",},
     {name: "Dirty Road", image: IMG_DIR + "dirty_2.jpg",},
     {name: "Dirty Road", image: IMG_DIR + "dirty_3.jpg",},
     {name: "Dirty Road", image: IMG_DIR + "dirty_4.jpg",},
     {name: "Dirty Road", image: IMG_DIR + "dirty_5.jpg",},
+    {name: "Dirty Road", image: IMG_DIR + "dirty_6.jpg",}
     // Add more ROADS as needed
 ];
 const ALL_IMAGES = ROADS.map(road => road.image)
@@ -194,9 +196,29 @@ const markers = document.querySelectorAll('.marker');
 loadModel()
     .then(() => makePrediction(ALL_IMAGES_FLATTENED))
     .then(predictions => updateMarkers(markers, predictions));
+
 // Close sidebar when clicking outside of it
 document.addEventListener('click', (event) => {
     if (!event.target.closest('#sidebar') && !event.target.classList.contains('marker')) {
         document.getElementById('sidebar').style.display = 'none';
     }
 });
+
+//
+//
+//
+async function shuffleImagesAndPredict() {
+    // Shuffle the images
+    const shuffledImages = tf.util.shuffle(ALL_IMAGES_FLATTENED);
+
+    // Make predictions for the shuffled images
+    const predictions = await makePrediction(shuffledImages);
+
+    // Update markers with new predictions and images
+    updateMarkers(markers, predictions);
+}
+
+// Set interval to shuffle images every 5 seconds
+setInterval(async () => {
+    await shuffleImagesAndPredict();
+}, 5000); 

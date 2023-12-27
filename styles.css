@@ -24,10 +24,55 @@ body, html {
 #sidebar {
     width: 300px;
     height: 100%;
-    background-color: #f2f2f2;
+    background-color: rgba(255, 255, 255, 0.2);
     position: fixed;
     right: 0;
     top: 0;
     padding: 10px;
     display: none;
+    backdrop-filter: blur(10px);
+}
+
+#navigator {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    background-color: #121212;
+}
+
+#navigator a {
+    height: 100%;
+    padding: 0 15px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: #f0f0f0;
+}
+
+#PTitle {
+    font-weight: bold;
+}
+
+#Footer {
+    align-items: center;
+    background-color: #121212;
+}
+
+#Footer h2 {
+    height: 100%;
+    padding-top: 30px;
+    padding: 0 15px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: #f0f0f0;
+}
+
+#Footer p {
+    height: 100%;
+    padding: 0 15px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: #f0f0f0;
 }
