@@ -154,22 +154,22 @@ async function makePrediction(filenames) {
 const IMG_DIR = "./dataset/Images/"
 const TRASH_RED_ICON = "./assets/icons/trash_red.png"
 const TRASH_GREEN_ICON = "./assets/icons/trash_green.png"
+
 const ROADS = [
     {name: "Clean Road", image: IMG_DIR + "clean_1.jpg",},
     {name: "Clean Road", image: IMG_DIR + "clean_2.jpg",},
     {name: "Clean Road", image: IMG_DIR + "clean_3.jpg",},
     {name: "Clean Road", image: IMG_DIR + "clean_4.jpg",},
     {name: "Clean Road", image: IMG_DIR + "clean_5.jpg",},
-    {name: "Clean Road", image: IMG_DIR + "clean_6.jpg",},
 
     {name: "Dirty Road", image: IMG_DIR + "dirty_1.jpg",},
     {name: "Dirty Road", image: IMG_DIR + "dirty_2.jpg",},
     {name: "Dirty Road", image: IMG_DIR + "dirty_3.jpg",},
     {name: "Dirty Road", image: IMG_DIR + "dirty_4.jpg",},
-    {name: "Dirty Road", image: IMG_DIR + "dirty_5.jpg",},
-    {name: "Dirty Road", image: IMG_DIR + "dirty_6.jpg",}
+    {name: "Dirty Road", image: IMG_DIR + "dirty_5.jpg",}
     // Add more ROADS as needed
 ];
+
 const ALL_IMAGES = ROADS.map(road => road.image)
 const ALL_IMAGES_FLATTENED = [].concat(ALL_IMAGES)
 
@@ -207,12 +207,16 @@ document.addEventListener('click', (event) => {
 //
 //
 //
+// Function to shuffle images and update markers
 async function shuffleImagesAndPredict() {
     // Shuffle the images
     const shuffledImages = tf.util.shuffle(ALL_IMAGES_FLATTENED);
 
-    // Make predictions for the shuffled images
-    const predictions = await makePrediction(shuffledImages);
+    // Select the first 10 shuffled images
+    const selectedImages = shuffledImages.slice(0, 10);
+
+    // Make predictions for the selected images
+    const predictions = await makePrediction(selectedImages);
 
     // Update markers with new predictions and images
     updateMarkers(markers, predictions);
@@ -221,4 +225,4 @@ async function shuffleImagesAndPredict() {
 // Set interval to shuffle images every 5 seconds
 setInterval(async () => {
     await shuffleImagesAndPredict();
-}, 5000); 
+}, 5000);
